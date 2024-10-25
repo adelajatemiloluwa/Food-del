@@ -1,17 +1,11 @@
-import React, { useContext } from 'react'
-import './Cart.css'
-import { StoreContext } from '../../Context/StoreContext'
+import React, { useContext } from 'react';
+import './Cart.css';
+import { StoreContext } from '../../Context/StoreContext';
 import { useNavigate } from 'react-router-dom';
 
-
 const Cart = () => {
-
   const { cartItems, food_list, removeFromCart, getTotalCartAmount } = useContext(StoreContext);
-
-
-
   const navigate = useNavigate();
-
 
   return (
     <div className='cart'>
@@ -26,10 +20,11 @@ const Cart = () => {
         </div>
         <br />
         <hr />
-        {food_list.map((item, index) => {
+        {food_list.map((item) => {
+          // Check if the item is in the cart
           if (cartItems[item._id] > 0) {
             return (
-              <div>
+              <div key={item._id}> {/* Added unique key prop */}
                 <div className='cart-items-title cart-items-item'>
                   <img src={item.image} alt="" />
                   <p>{item.name}</p>
@@ -40,10 +35,9 @@ const Cart = () => {
                 </div>
                 <hr />
               </div>
-
-            )
+            );
           }
-
+          return null; // Ensure to return null if the condition is not met
         })}
       </div>
       <div className="cart-bottom">
@@ -57,19 +51,19 @@ const Cart = () => {
             <hr />
             <div className="cart-total-details">
               <p>Delivery Fee</p>
-              <p>${getTotalCartAmount()===0?0:2}</p>
+              <p>${getTotalCartAmount() === 0 ? 0 : 2}</p>
             </div>
             <hr />
             <div className="cart-total-details">
               <b>Total</b>
-              <b>${getTotalCartAmount()===0?0:getTotalCartAmount()+2}</b>
+              <b>${getTotalCartAmount() === 0 ? 0 : getTotalCartAmount() + 2}</b>
             </div>
           </div>
-          <button onClick={()=>navigate('/order')}>PROCEED TO CHECKOUT</button>
+          <button onClick={() => navigate('/order')}>PROCEED TO CHECKOUT</button>
         </div>
         <div className="cart-promocode">
           <div>
-            <p>If you have a promo code, Enter it here</p>
+            <p>If you have a promo code, enter it here</p>
             <div className="cart-promocode-input">
               <input type="text" placeholder='promo code' />
               <button>Submit</button>
@@ -78,7 +72,8 @@ const Cart = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Cart
+export default Cart;
+
